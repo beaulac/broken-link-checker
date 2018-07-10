@@ -1506,5 +1506,71 @@ describe("INTERNAL -- checkUrl", function()
 				});
 			});
 		});
+
+
+
+		it("retry405Head = true (backwards compatibility)", function()
+		{
+			return checkUrl(
+				conn.absoluteUrls[0]+"/method-not-allowed/head.html",
+				conn.absoluteUrls[0],
+				new UrlCache(),
+				helpers.options({ headRetryCodes: [500], retry405Head:true })
+			)
+				.then( function(result)
+				{
+					expect(result).to.be.like(
+						{
+							broken: false,
+							brokenReason: null,
+							excluded: null,
+							excludedReason: null
+						});
+				});
+		});
+
+
+
+		it("headRetryCodes = []", function()
+		{
+			return checkUrl(
+				conn.absoluteUrls[0]+"/method-not-allowed/head-invalid.html",
+				conn.absoluteUrls[0],
+				new UrlCache(),
+				helpers.options({ headRetryCodes:[] })
+			)
+				.then( function(result)
+				{
+					expect(result).to.be.like(
+						{
+							broken: true,
+							brokenReason: 'HTTP_500',
+							excluded: null,
+							excludedReason: null
+						});
+				});
+		});
+
+
+
+		it("headRetryCodes = [500]", function()
+		{
+			return checkUrl(
+				conn.absoluteUrls[0]+"/method-not-allowed/head-invalid.html",
+				conn.absoluteUrls[0],
+				new UrlCache(),
+				helpers.options({ headRetryCodes:[500] })
+			)
+				.then( function(result)
+				{
+					expect(result).to.be.like(
+						{
+							broken: false,
+							brokenReason: null,
+							excluded: null,
+							excludedReason: null
+						});
+				});
+		});
 	});
 });

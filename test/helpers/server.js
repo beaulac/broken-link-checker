@@ -104,6 +104,19 @@ function startHttpServer_callback(request, response, port, suitePorts)
 			// Serve file
 			break;
 		}
+		case "/method-not-allowed/head-invalid.html":
+		{
+			if (request.method.toLowerCase() === "head")
+			{
+				// Error w/ unusual code
+				response.writeHead(500);
+				response.end();
+				return;
+			}
+
+			// Serve file
+			break;
+		}
 		case "/external-redirect/redirect.html":
 		{
 			// This fixture requires at least servers

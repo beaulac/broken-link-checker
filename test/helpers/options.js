@@ -13,7 +13,8 @@ var testDefaultOptions =
 	honorRobotExclusions: false,
 	maxSockets: Infinity,
 	maxSocketsPerHost: Infinity,
-	retry405Head: false
+	retry405Head: false,
+	headRetryCodes: []
 };
 
 
